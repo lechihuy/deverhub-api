@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\AuthenticateRequest;
 use App\Jobs\Auth\AttemptToAuthenticate;
 use App\Jobs\Auth\PrepareAuthenticatedToken;
-use App\Jobs\Auth\RespondWithAuthenticatedUser;
+use App\Jobs\Auth\RespondWithAuthenticatedJson;
 use App\Jobs\Auth\ThrowFailedAuthenticationException;
 
 class AuthenticateController extends Controller
@@ -26,12 +26,18 @@ class AuthenticateController extends Controller
      * Attempt to authenticate with given credentials.
      * 
      * @param  \App\Http\Requests\Auth\AuthenticateRequest $request
-     * @return 
+     * @return \Illuminate\Http\JsonResponse
+     * 
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function authenticate(AuthenticateRequest $request)
+    public function authenticate(AuthenticateRequest $request): \Illuminate\Http\JsonResponse
     {
-        return AttemptToAuthenticate::dispatchSync()
-            ? RespondWithAuthenticatedUser::dispatchSync(token: PrepareAuthenticatedToken::dispatchSync()) 
-            : ThrowFailedAuthenticationException::dispatchSync();
+        if (AttemptToAuthenticate::dispatchSync()) {
+            return RespondWithAuthenticatedJson::dispatchSync(
+                token: PrepareAuthenticatedToken::dispatchSync()
+            );
+        }
+
+        return ThrowFailedAuthenticationException::dispatchSync();
     }
 }

@@ -5,7 +5,7 @@ namespace App\Jobs\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class RespondWithAuthenticatedUser
+class RespondWithAuthenticatedJson
 {
     use Dispatchable;
 

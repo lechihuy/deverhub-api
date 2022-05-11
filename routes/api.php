@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticateController;
+use App\Http\Controllers\Content\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/login', [AuthenticateController::class, 'authenticate']);
+
+Route::apiResources([
+    'posts' => PostController::class,
+]);

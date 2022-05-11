@@ -21,8 +21,9 @@ class RespondWithAuthenticatedJson
          * @var \Laravel\Sanctum\NewAccessToken
          */
         public \Laravel\Sanctum\NewAccessToken $token
-    ) {
-        
+    ) 
+    {
+        //    
     }
 
     /**
